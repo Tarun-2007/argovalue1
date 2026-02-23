@@ -3,7 +3,9 @@ export const authService = {
     const users = JSON.parse(localStorage.getItem('users') || '[]');
     
     if (users.find(u => u.email === userData.email)) {
-      throw { response: { data: { message: 'Email already exists' } } };
+      const error = new Error('Email already exists');
+      error.response = { data: { message: 'Email already exists' } };
+      throw error;
     }
     
     const user = { id: Date.now(), ...userData };
@@ -23,7 +25,9 @@ export const authService = {
     const user = users.find(u => u.email === credentials.email && u.password === credentials.password);
     
     if (!user) {
-      throw { response: { data: { message: 'Invalid email or password' } } };
+      const error = new Error('Invalid email or password');
+      error.response = { data: { message: 'Invalid email or password' } };
+      throw error;
     }
     
     const token = btoa(JSON.stringify({ id: user.id, email: user.email }));
