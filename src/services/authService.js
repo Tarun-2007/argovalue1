@@ -8,12 +8,13 @@ export const authService = {
       throw error;
     }
     
-    const user = { id: Date.now(), ...userData };
+    const role = userData.role || 'user';
+    const user = { id: Date.now(), ...userData, role };
     delete user.password;
-    users.push({ ...userData, id: user.id });
+    users.push({ ...userData, id: user.id, role });
     localStorage.setItem('users', JSON.stringify(users));
     
-    const token = btoa(JSON.stringify({ id: user.id, email: user.email }));
+    const token = btoa(JSON.stringify({ id: user.id, email: user.email, role }));
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
     
@@ -30,8 +31,8 @@ export const authService = {
       throw error;
     }
     
-    const token = btoa(JSON.stringify({ id: user.id, email: user.email }));
-    const userData = { id: user.id, name: user.name, email: user.email };
+    const token = btoa(JSON.stringify({ id: user.id, email: user.email, role: user.role }));
+    const userData = { id: user.id, name: user.name, email: user.email, role: user.role, phone: user.phone, location: user.location };
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(userData));
     
@@ -50,5 +51,28 @@ export const authService = {
 
   isAuthenticated: () => {
     return !!localStorage.getItem('token');
+  },
+
+  isAdmin: () => {
+    const user = authService.getCurrentUser();
+    return user?.role === 'admin';
+  },
+
+  updateProfile: async (userId, updates) => {
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    const userIndex = users.findIndex(u => u.id === userId);
+    
+    if (userIndex === -1) {
+      throw new Error('User not found');
+    }
+    
+    users[userIndex] = { ...users[userIndex], ...updates };
+    localStorage.setItem('users', JSON.stringify(users));
+    
+    const updatedUser = { ...users[userIndex] };
+    delete updatedUser.password;
+    localStorage.setItem('user', JSON.stringify(updatedUser));
+    
+    return updatedUser;
   },
 };

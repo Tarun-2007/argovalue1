@@ -5,6 +5,8 @@ import './Navbar.css';
 const Navbar = () => {
   const navigate = useNavigate();
   const isAuthenticated = authService.isAuthenticated();
+  const isAdmin = authService.isAdmin();
+  const user = authService.getCurrentUser();
 
   const handleLogout = () => {
     authService.logout();
@@ -26,6 +28,11 @@ const Navbar = () => {
               <li className="nav-item">
                 <Link to="/dashboard" className="nav-link">Dashboard</Link>
               </li>
+              {isAdmin && (
+                <li className="nav-item">
+                  <Link to="/admin" className="nav-link admin-link">Admin Panel</Link>
+                </li>
+              )}
               <li className="nav-item">
                 <Link to="/products" className="nav-link">Products</Link>
               </li>
@@ -39,7 +46,9 @@ const Navbar = () => {
                 <Link to="/community" className="nav-link">Community</Link>
               </li>
               <li className="nav-item">
-                <Link to="/profile" className="nav-link">Profile</Link>
+                <Link to="/profile" className="nav-link">
+                  {user?.name || 'Profile'} {isAdmin && '👑'}
+                </Link>
               </li>
               <li className="nav-item">
                 <button onClick={handleLogout} className="nav-btn logout-btn">
@@ -50,10 +59,10 @@ const Navbar = () => {
           ) : (
             <>
               <li className="nav-item">
-                <Link to="/login" className="nav-btn">Login</Link>
+                <Link to="/role-selection" className="nav-btn">Login</Link>
               </li>
               <li className="nav-item">
-                <Link to="/register" className="nav-btn register-btn">Register</Link>
+                <Link to="/role-selection?action=register" className="nav-btn register-btn">Register</Link>
               </li>
             </>
           )}

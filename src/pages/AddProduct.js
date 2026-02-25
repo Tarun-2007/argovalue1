@@ -10,6 +10,7 @@ const AddProduct = () => {
     category: '',
     price: '',
     description: '',
+    stock: '',
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -22,7 +23,7 @@ const AddProduct = () => {
     e.preventDefault();
     setError('');
 
-    if (!formData.name || !formData.category || !formData.price || !formData.description) {
+    if (!formData.name || !formData.category || !formData.price || !formData.description || !formData.stock) {
       setError('Please fill in all fields');
       return;
     }
@@ -83,6 +84,19 @@ const AddProduct = () => {
               value={formData.price}
               onChange={handleChange}
               placeholder="Enter price"
+              min="0"
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Stock Quantity</label>
+            <input
+              type="number"
+              name="stock"
+              value={formData.stock}
+              onChange={handleChange}
+              placeholder="Available quantity"
               min="0"
               required
             />

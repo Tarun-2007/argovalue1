@@ -29,10 +29,10 @@ const Home = () => {
                 </>
               ) : (
                 <>
-                  <Link to="/register" className="btn btn-primary">
+                  <Link to="/role-selection" className="btn btn-primary">
                     Get Started
                   </Link>
-                  <Link to="/login" className="btn btn-secondary">
+                  <Link to="/role-selection" className="btn btn-secondary">
                     Login
                   </Link>
                 </>

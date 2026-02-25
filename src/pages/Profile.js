@@ -4,11 +4,31 @@ import './Profile.css';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState({});
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     const currentUser = authService.getCurrentUser();
     setUser(currentUser);
+    setFormData(currentUser || {});
   }, []);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSave = async () => {
+    try {
+      const updated = await authService.updateProfile(user.id, formData);
+      setUser(updated);
+      setIsEditing(false);
+      setMessage('Profile updated successfully!');
+      setTimeout(() => setMessage(''), 3000);
+    } catch (error) {
+      setMessage('Failed to update profile');
+    }
+  };
 
   return (
     <div className="profile-page">
@@ -17,29 +37,52 @@ const Profile = () => {
           <div className="profile-avatar">👤</div>
           <h1>{user?.name || 'User'}</h1>
           <p>{user?.email || 'user@example.com'}</p>
+          {user?.role && <span className="role-badge">{user.role}</span>}
         </div>
+
+        {message && <div className="message">{message}</div>}
 
         <div className="profile-sections">
           <div className="profile-section">
-            <h2>Personal Information</h2>
+            <div className="section-header">
+              <h2>Personal Information</h2>
+              <button onClick={() => setIsEditing(!isEditing)} className="edit-toggle-btn">
+                {isEditing ? '✕ Cancel' : '✏️ Edit'}
+              </button>
+            </div>
             <div className="info-grid">
               <div className="info-item">
                 <label>Full Name</label>
-                <p>{user?.name || 'N/A'}</p>
+                {isEditing ? (
+                  <input type="text" name="name" value={formData.name || ''} onChange={handleChange} />
+                ) : (
+                  <p>{user?.name || 'N/A'}</p>
+                )}
               </div>
               <div className="info-item">
                 <label>Email</label>
                 <p>{user?.email || 'N/A'}</p>
               </div>
               <div className="info-item">
-                <label>Member Since</label>
-                <p>January 2024</p>
+                <label>Phone</label>
+                {isEditing ? (
+                  <input type="text" name="phone" value={formData.phone || ''} onChange={handleChange} />
+                ) : (
+                  <p>{user?.phone || 'N/A'}</p>
+                )}
               </div>
               <div className="info-item">
                 <label>Location</label>
-                <p>India</p>
+                {isEditing ? (
+                  <input type="text" name="location" value={formData.location || ''} onChange={handleChange} />
+                ) : (
+                  <p>{user?.location || 'N/A'}</p>
+                )}
               </div>
             </div>
+            {isEditing && (
+              <button onClick={handleSave} className="save-btn">Save Changes</button>
+            )}
           </div>
 
           <div className="profile-section">
@@ -58,11 +101,6 @@ const Profile = () => {
                 <span className="stat-value">8</span>
               </div>
             </div>
-          </div>
-
-          <div className="profile-actions">
-            <button className="action-btn primary">Edit Profile</button>
-            <button className="action-btn secondary">Change Password</button>
           </div>
         </div>
       </div>

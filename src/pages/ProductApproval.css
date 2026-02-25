@@ -1,0 +1,163 @@
+.approval-page {
+  max-width: 1200px;
+  margin: 100px auto 40px;
+  padding: 20px;
+}
+
+.approval-page h1 {
+  color: #2d5016;
+  margin-bottom: 30px;
+}
+
+.filter-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.filter-tabs button {
+  padding: 12px 24px;
+  border: 2px solid #e0e0e0;
+  background: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.filter-tabs button.active {
+  background: #4a7c2c;
+  color: white;
+  border-color: #4a7c2c;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.approval-card {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.approval-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.product-details {
+  padding: 20px;
+}
+
+.product-details h3 {
+  margin: 0 0 10px 0;
+  color: #2d5016;
+}
+
+.category {
+  background: #fbbf24;
+  color: #1f2937;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.price {
+  font-size: 1.5rem;
+  color: #10b981;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.stock {
+  color: #666;
+  margin: 5px 0;
+}
+
+.description {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 10px 0;
+}
+
+.status-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.status-badge.pending {
+  background: #fbbf24;
+  color: #1f2937;
+}
+
+.status-badge.approved {
+  background: #10b981;
+  color: white;
+}
+
+.status-badge.rejected {
+  background: #dc3545;
+  color: white;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  padding: 0 20px 20px;
+}
+
+.approve-btn, .reject-btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.approve-btn {
+  background: #10b981;
+  color: white;
+}
+
+.approve-btn:hover {
+  background: #059669;
+}
+
+.reject-btn {
+  background: #dc3545;
+  color: white;
+}
+
+.reject-btn:hover {
+  background: #c82333;
+}
+
+.no-products {
+  text-align: center;
+  color: #666;
+  padding: 60px;
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 768px) {
+  .approval-page {
+    margin-top: 80px;
+    padding: 15px;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+}
